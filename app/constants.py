@@ -21,3 +21,5 @@ SPACY_MODEL = 'en_core_web_lg'
 ERROR_BLOB_DOESNT_EXIST = "Specified blob doesn't exist."
 
 TOPN = 5 # number of words to take to the left and right of a field
+
+CLAUSE_ENCODER = 'models/legal_bert_small_smoothing-0.1'
