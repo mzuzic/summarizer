@@ -1,0 +1,19 @@
+Flask==2.0.1
+Flask-Caching==1.10.1
+redis==3.5.3
+waitress==2.0.0
+congaworkerservice==0.0.9
+congablobservice==0.0.5
+pika==1.2.0
+threaded==4.1.0
+lxml==4.6.3
+azure.storage.blob==12.8.1
+statistics==1.0.3.5
+spacy==3.1.2
+nltk==3.6.2
+jellyfish==0.8.8
+inflect==5.3.0
+scikit-learn==1.0.1
+pandas==1.3.4
+numpy==1.21.4
+en-core-web-lg @ https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.1.0/en_core_web_lg-3.1.0-py3-none-any.whl

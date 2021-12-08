@@ -1,0 +1,22 @@
+version: '3'
+
+networks:
+  conga_micro_network:
+    external:
+      name: conga_micro_network
+
+services:
+  custom_extraction:
+    platform: linux/x86_64
+    build:
+      context: .
+      dockerfile: Dockerfile-arm
+    image: rostegg/flask-api-boilerplate
+    volumes: 
+      - ./app:/custom-extraction/app
+    ports:
+      - "5006:5006"
+    networks:
+      - conga_micro_network
+    container_name: api_custom_extraction
+

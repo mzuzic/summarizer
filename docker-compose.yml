@@ -1,0 +1,23 @@
+version: "3"
+
+networks:
+  conga_micro_network:
+    external:
+      name: conga_micro_network
+
+services:
+  custom_extraction:
+    build: 
+      context: .
+      args:
+        REQUIREMENTS_FILE: dev.txt
+    volumes:
+      - .:/custom-extraction
+    environment:
+      - FLASK_DEBUG=1
+    ports:
+      - "5006:5006"
+    networks:
+      - conga_micro_network
+    container_name: api_custom_extraction
+
