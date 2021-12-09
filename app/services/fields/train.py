@@ -45,7 +45,7 @@ def get_contra_examples(ent_type, num=50):
                                      "clause_text": it['Clause Text'],
                                      "label": it['Label']
                                     })
-    print(len(examples))
+
     return examples[:num]
 
 
@@ -84,11 +84,12 @@ def get_embeddings(support_list):
     return relevant_embeddings
 
 
-def train(examples, label, ent_type):
+def train(examples, contra_examples, label, ent_type):
     # ent_type - spacy entity type it is connected to (MONEY, INTEGER, DATE, DURATION)
     # we assume these are all from the same label - prefilter needed (per label)
     # examples are a list of tuples (ent_text, start_offset, clause_text, label)
-    contra_examples = get_contra_examples(ent_type)
+    contra_examples_builtin = get_contra_examples(ent_type)
+    contra_examples = contra_examples + contra_examples_builtin
     
     support_embeddings = get_embeddings(examples)
     support_embeddings = [se for se in support_embeddings if not np.isnan(se).all()]
