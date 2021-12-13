@@ -3,7 +3,8 @@ from flask import (Blueprint, Flask, jsonify, request)
 from app.services.fields.train import train as train_fields
 from app.services.fields.predict import batch_predict_custom_fields
 from app.services.storage_service import storage_service
-from app.services.clauses.train import train as train_clauses
+
+from app.tasks import train_clause_model
 
 index = Blueprint(name='index', import_name=__name__, url_prefix="/v1")
 
@@ -49,7 +50,6 @@ def train_custom_clauses():
     clauses = request.json.get('clauses')
     labels = request.json.get('labels')
 
-    model = train_clauses(clauses, labels)
-    tempfile = storage_service.upload_ml_model(model)
+    train_clause_model.delay(clauses, labels)
 
-    return jsonify({"tempfile": tempfile.file_path})
+    return 'OK'
