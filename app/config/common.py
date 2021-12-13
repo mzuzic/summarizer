@@ -20,3 +20,11 @@ CORE_CHANGE_PROCESS_STATUS_URL = CORE_APP_URL + CORE_CHANGE_PROCESS_STATUS
 CORE_DOCUMENT_TYPE_CONFIG_URL = CORE_APP_URL + CORE_DOCUMENT_TYPE_CONFIG
 
 ENCRYPTION_KEY = os.getenv('ENCRYPTION_KEY')
+
+database = os.getenv('DB_NAME')
+user = os.getenv('DB_USER')
+password = os.getenv('DB_PASSWORD')
+host = os.getenv('DB_HOST')
+port = os.getenv('DB_PORT')
+
+DATABASE_CONNECTION_URI = f'postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}'

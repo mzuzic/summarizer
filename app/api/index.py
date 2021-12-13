@@ -1,12 +1,17 @@
 from flask import (Blueprint, Flask, jsonify, request)
 
+from app.database import init_db
+from app.database import db_session
+from app.db_models import Request
+
 from app.services.fields.train import train as train_fields
 from app.services.fields.predict import batch_predict_custom_fields
 from app.services.storage_service import storage_service
-
 from app.tasks import train_clause_model
 
+
 index = Blueprint(name='index', import_name=__name__, url_prefix="/v1")
+init_db()
 
 
 @index.route('/custom-fields/train', methods=['POST'])
@@ -50,6 +55,11 @@ def train_custom_clauses():
     clauses = request.json.get('clauses')
     labels = request.json.get('labels')
 
-    train_clause_model.delay(clauses, labels)
+    # name Task?
+    req = Request()
+    db_session.add(req)
+    db_session.commit()
 
-    return 'OK'
+    train_clause_model.delay(clauses, labels, req.id)
+
+    return jsonify({'request_id': req.id})

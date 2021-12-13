@@ -21,7 +21,7 @@ services:
       - conga_micro_network
     container_name: api_custom_extraction
 
-  db:
+  db: # TODO does name have to be different than core app db?
     image: postgres:13.3
     ports:
       - 5433:5432
@@ -36,7 +36,7 @@ services:
       - conga_micro_network
 
   celery:
-    build: # TODO use same image as service
+    build:
       context: .
       args:
         REQUIREMENTS_FILE: dev.txt
