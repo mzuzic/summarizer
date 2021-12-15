@@ -11,4 +11,9 @@ class BaseConfig:
     SECRET_KEY = os.getenv('SECRET_KEY') if os.getenv('SECRET_KEY') else None
 
 
+class Config:
+    CELERY_BROKER_URL = os.environ.get('BROKER_URL')
+    CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
+
+
 config = BaseConfig

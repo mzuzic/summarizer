@@ -20,4 +20,45 @@ services:
     networks:
       - conga_micro_network
     container_name: api_custom_extraction
+    depends_on:
+      - database
 
+  database:
+    image: postgres:13.3
+    ports:
+      - 5434:5434
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /data/postgres
+    command: -p 5434
+    volumes:
+      - database-data:/data/postgres
+    networks:
+      - conga_micro_network
+
+  celery:
+    build:
+      context: .
+      args:
+        REQUIREMENTS_FILE: dev.txt
+    restart: unless-stopped
+    env_file: .env
+    command: 'sh -c "celery -A app worker --pool solo --loglevel=debug --concurrency=4"'
+    volumes:
+      - .:/custom-extraction
+    networks:
+      - conga_micro_network
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    command: --port 6380
+    ports:
+      - 6380:6380
+    networks:
+      - conga_micro_network
+
+volumes:
+  database-data:
