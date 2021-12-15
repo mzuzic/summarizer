@@ -14,5 +14,5 @@ class FileService:
 
 
 class TemporaryFile:
-    def __init__(self, doc_type):
-        self.file, self.file_path = tempfile.mkstemp(doc_type)
+    def __init__(self, name, doc_type):
+        self.file, self.file_path = tempfile.mkstemp(prefix=name, suffix=doc_type)
