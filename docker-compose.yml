@@ -20,18 +20,21 @@ services:
     networks:
       - conga_micro_network
     container_name: api_custom_extraction
+    depends_on:
+      - database
 
-  db: # TODO does name have to be different than core app db?
+  database:
     image: postgres:13.3
     ports:
-      - 5433:5432
+      - 5434:5434
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       PGDATA: /data/postgres
+    command: -p 5434
     volumes:
-      - db-data:/data/postgres
+      - database-data:/data/postgres
     networks:
       - conga_micro_network
 
@@ -51,10 +54,11 @@ services:
   redis:
     image: redis:alpine
     restart: unless-stopped
+    command: --port 6380
     ports:
-      - 6379:6379
+      - 6380:6380
     networks:
       - conga_micro_network
 
 volumes:
-  db-data:
+  database-data:
