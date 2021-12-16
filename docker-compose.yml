@@ -11,15 +11,16 @@ services:
       context: .
       args:
         REQUIREMENTS_FILE: dev.txt
-    volumes:
-      - .:/custom-extraction
+    image: conga_custom_extraction
+    # container_name: api_custom_extraction
     environment:
       - FLASK_DEBUG=1
     ports:
       - "5006:5006"
     networks:
       - conga_micro_network
-    container_name: api_custom_extraction
+    volumes:
+      - .:/custom-extraction
     depends_on:
       - database
 
@@ -39,10 +40,7 @@ services:
       - conga_micro_network
 
   celery:
-    build:
-      context: .
-      args:
-        REQUIREMENTS_FILE: dev.txt
+    image: conga_custom_extraction
     restart: unless-stopped
     env_file: .env
     command: 'sh -c "celery -A app worker --pool solo --loglevel=debug --concurrency=4"'

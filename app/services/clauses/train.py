@@ -1,7 +1,7 @@
 import re
 
 from sklearn.neighbors import KNeighborsClassifier
-from app.models import clause_encoder
+from app.model_repository import clause_encoder
 from app.datasets import df_clauses
 
 
