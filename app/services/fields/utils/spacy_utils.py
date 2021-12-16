@@ -1,4 +1,4 @@
-from app.models import nlp
+from app.model_repository import nlp
 
 
 def tokenize_sentence(nlp_sentence):

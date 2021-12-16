@@ -3,7 +3,7 @@ import math
 import numpy as np
 from collections import defaultdict
 
-from app.models import nlp
+from app.model_repository import nlp
 from app.constants import TOPN
 from app.services.storage_service import storage_service
 

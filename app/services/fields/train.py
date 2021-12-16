@@ -8,7 +8,7 @@ import pandas as pd
 
 from sklearn.neighbors import KNeighborsClassifier
 
-from app.models import nlp
+from app.model_repository import nlp
 from app.datasets import df_fields_annotated
 from app.constants import TOPN
 
