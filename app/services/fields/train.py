@@ -2,6 +2,7 @@
 
 # TODO: USE SPATIAL INFORMATION (where inside the document is it included)
 
+import requests
 import numpy as np
 import pickle
 import pandas as pd
@@ -13,6 +14,9 @@ from app.datasets import df_fields_annotated
 from app.constants import TOPN
 
 from .utils.utils import is_valid_token
+
+from app.services.encryption_service import EncryptionService
+from app.config.common import CORE_CHANGE_TRAINING_STATUS_URL, APP_NAME
 
 
 def get_contra_examples(ent_type, num=50):
@@ -108,3 +112,12 @@ def load_model(label, ent_type):
     with open(f'knn_{label}_{ent_type}.pkl', 'rb') as f:
         knn = pickle.load(f)
     return knn
+
+def change_training_status(request_item):
+    headers = {'authorization': EncryptionService.encrypt(APP_NAME)}
+    resp = requests.post(url='http://172.18.0.1:8001/trained-model/training/status',
+                        json={
+                              "trained_model_id": request_item.trained_model_id,
+                              "model_location": request_item.model_name,
+                              "status": request_item.status.value},
+                        headers=headers)

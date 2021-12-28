@@ -7,7 +7,7 @@ from app.db_models import Request
 from app.services.fields.train import train as train_fields
 from app.services.fields.predict import batch_predict_custom_fields
 from app.services.storage_service import storage_service
-from app.tasks import train_clause_model
+from app.tasks import train_clause_model, train_fields_model
 
 
 index = Blueprint(name='index', import_name=__name__, url_prefix="/v1")
@@ -23,11 +23,14 @@ def train_custom_fields():
     label = request.json.get('label')
     ent_type = request.json.get('ent_type')
 
-    trained_knn = train_fields(examples, contra_examples, label, ent_type)
-    _ = storage_service.upload_ml_model(model_name, trained_knn)
+    # name Task?
+    req = Request()
+    db_session.add(req)
+    db_session.commit()
 
-    return jsonify({"tempfile": "",
-                    "name": model_name})
+    train_fields_model.delay(trained_model_id, model_name, examples, contra_examples, label, ent_type, req.id)
+
+    return jsonify({'request_id': req.id})
 
 
 @index.route('/custom-fields/predict', methods=['POST'])

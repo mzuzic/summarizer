@@ -9,8 +9,8 @@ from .file_service import TemporaryFile
 
 
 class StorageServiceConfig:
-    def __init__(self, shared_storage_container_custom_models):
-        self.shared_storage_container_custom_models = shared_storage_container_custom_models
+    def __init__(self, shared_storage_container_custom_fields_models):
+        self.shared_storage_container_custom_fields_models = shared_storage_container_custom_fields_models
 
     @staticmethod
     def default():
@@ -39,7 +39,7 @@ class StorageService:
         print(f"Downloading {blob_name}", flush=True)
 
         blob = self.blob_service.get_specific_blob_client(conn_str=AZURE_STORAGE_CONNECTION_STRING,
-                                                          container_name=self.config.shared_storage_container_custom_models,
+                                                          container_name=self.config.shared_storage_container_custom_fields_models,
                                                           blob_name=blob_name)
         if not blob.exists():
             raise ValueError(ERROR_BLOB_DOESNT_EXIST)
