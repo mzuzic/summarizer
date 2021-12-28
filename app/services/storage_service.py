@@ -26,14 +26,14 @@ class StorageService:
         self.blob_service.upload(temp_file_path, self.config.shared_storage_container_custom_fields_models,
                                  os.path.basename(temp_file_path))
 
-    def upload_ml_model(self, model):
-        tempfile = TemporaryFile('.pkl')
-        with open(tempfile.file_path, 'wb') as f:
+    def upload_ml_model(self, model_name, model):
+        with open(f'{model_name}.pkl', 'wb') as f:
             pickle.dump(model, f)
-        
-        self.upload(tempfile.file_path)
-        
-        return tempfile
+
+        self.upload(f'{model_name}.pkl')
+        os.remove(f'{model_name}.pkl')
+
+        return model_name
 
     def download(self, tempfile, blob_name):
         print(f"Downloading {blob_name}", flush=True)
@@ -50,7 +50,7 @@ class StorageService:
         return tempfile
 
     def download_ml_model(self, model_location):
-        tempfile = TemporaryFile('.pkl')
+        tempfile = TemporaryFile('test', '.pkl')
         tempfile = self.download(tempfile, model_location)
         with open(tempfile.file_path, 'rb') as f:
             model = pickle.load(f)

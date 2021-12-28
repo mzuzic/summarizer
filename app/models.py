@@ -22,7 +22,7 @@ class Request(Base):
 
     __tablename__ = 'requests'
     id = Column(Integer, primary_key=True)
-    model_location = Column(String(50), unique=True)
+    model_location = Column(String(200), unique=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     status = Column(Enum(Status), default=Status.PENDING)
 

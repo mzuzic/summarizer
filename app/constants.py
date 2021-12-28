@@ -8,6 +8,7 @@ written_numbers = set(['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'e
 money_word_exclusions = set(['client'])
 
 date_word_exclusions = set(['present', 'now', 'time', 'currently', 'previously', 'past'])
+UTF8 = 'utf-8'
 
 HIGH_CONFIDENCE_THRESHOLD = 0.8
 MEDIUM_CONFIDENCE_THRESHOLD = 0.6
