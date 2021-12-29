@@ -27,13 +27,15 @@ class StorageService:
                                  os.path.basename(temp_file_path))
 
     def upload_ml_model(self, model_name, model):
-        with open(f'{model_name}.pkl', 'wb') as f:
+        model_location = f'{model_name}.pkl'
+
+        with open(model_location, 'wb') as f:
             pickle.dump(model, f)
 
-        self.upload(f'{model_name}.pkl')
-        os.remove(f'{model_name}.pkl')
+        self.upload(model_location)
+        os.remove(model_location)
 
-        return model_name
+        return model_location
 
     def download(self, tempfile, blob_name):
         print(f"Downloading {blob_name}", flush=True)

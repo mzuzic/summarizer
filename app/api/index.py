@@ -36,12 +36,19 @@ def train_custom_clauses():
     clauses = request.json.get('clauses')
     labels = request.json.get('labels')
     trained_model_id = request.json.get('trained_model_id')
+    model_name = request.json.get('model_name')
 
     req = Request()
     db_session.add(req)
     db_session.commit()
 
-    train_clause_model.delay(clauses, labels, req.id, trained_model_id)
+    train_clause_model.delay(
+        clauses,
+        labels,
+        req.id,
+        trained_model_id,
+        model_name
+    )
 
     return jsonify({'request_id': req.id})
 

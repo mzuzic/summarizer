@@ -11,7 +11,7 @@ from app.services.document_status_service import (update_training_information_fi
 
 
 @celery.task()
-def train_clause_model(clauses, labels, request_id, trained_model_id):
+def train_clause_model(clauses, labels, request_id, trained_model_id, model_name):
     try:
         request = Request.query.filter_by(id=request_id).first()
         request.status = Status.RUNNING
@@ -19,13 +19,13 @@ def train_clause_model(clauses, labels, request_id, trained_model_id):
 
         model = train_clauses(clauses, labels)
 
-        tempfile = storage_service.upload_ml_model(model)
+        model_location = storage_service.upload_ml_model(model_name, model)
 
-        request.model_location = tempfile.file_path
+        request.model_location = model_location
         request.status = Status.FINISHED
         db_session.commit()
 
-        update_training_information_finished(trained_model_id, tempfile.file_path)
+        update_training_information_finished(trained_model_id, model_location)
 
     except Exception as ex:
         print(ex)
