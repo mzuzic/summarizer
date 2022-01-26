@@ -21,5 +21,3 @@ sentence-transformers==2.1.0
 celery==4.4.7
 Flask-SQLAlchemy==2.5.1
 psycopg2==2.9.2
-
-localstack-client==1.29

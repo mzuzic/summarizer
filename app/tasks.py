@@ -46,7 +46,7 @@ def train_fields_model(trained_model_id, model_name, examples, contra_examples, 
         _ = storage_service.upload_ml_model(model_name, model)
 
         request.model_location = model_name
-        request.trained_model_id = trained_model_id
+        # request.trained_model_id = trained_model_id
         request.status = Status.FINISHED
         db_session.commit()
     except Exception as ex:
@@ -55,4 +55,5 @@ def train_fields_model(trained_model_id, model_name, examples, contra_examples, 
         request.status = Status.FAILED
         db_session.commit()
     finally:
-        change_training_status(request.trained_model_id, request.model_location, request.status)
+        # print(request.trained_model_id, flush=True)
+        change_training_status(trained_model_id, request.model_location, request.status)

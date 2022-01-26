@@ -19,11 +19,13 @@ class Request(Base):
     id: int
     model_location: str
     time_created: str
+    trained_model_id: int
 
     __tablename__ = 'requests'
     id = Column(Integer, primary_key=True)
     model_location = Column(String(200), unique=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
+    trained_model_id = Column(Integer, unique=False)
     status = Column(Enum(Status), default=Status.PENDING)
 
     def __repr__(self):

@@ -1,10 +1,10 @@
 import os
 import pickle
-import localstack_client.session as boto3
 
 from congablobservice import BlobService
-from app.config.common import AZURE_STORAGE_CONTAINERS, AZURE_STORAGE_CONNECTION_STRING
+from app.config.common import AZURE_STORAGE_CONNECTION_STRING, BUCKET_FOLDERS, BUCKET_NAME
 from app.constants import ERROR_BLOB_DOESNT_EXIST
+from app.config.connections import aws_session
 
 from .file_service import TemporaryFile
 
@@ -15,7 +15,7 @@ class StorageServiceConfig:
 
     @staticmethod
     def default():
-        return StorageServiceConfig(AZURE_STORAGE_CONTAINERS.get('CUSTOM_FIELDS_MODELS'))
+        return StorageServiceConfig(BUCKET_FOLDERS.get('CUSTOM_MODELS_FOLDER'))
 
 
 class StorageService:
@@ -65,9 +65,7 @@ class StorageService:
 
 class S3StorageService:
     def __init__(self, storage_config=StorageServiceConfig.default()):
-        # self.blob_service = boto3.client('s3', endpoint_url='http://localstack-container:4572')
-        session = boto3.Session(localstack_host="localstack-container")
-        self.blob_service = session.client('s3')
+        self.blob_service = aws_session.client('s3')
         self.config = storage_config
 
     def store_in_temp_file(self, temp_file, document_file):
@@ -76,9 +74,9 @@ class S3StorageService:
     def upload(self, temp_file_path):
         print(f"Uploading {temp_file_path} to S3", flush=True)
 
-        self.blob_service.upload_file(temp_file_path,
-                                      self.config.shared_storage_container_document_fields,
-                                      os.path.basename(temp_file_path))
+        file_name = self.generate_bucket_file_name_from_folder(BUCKET_FOLDERS['CUSTOM_MODELS_FOLDER'],
+                                                               os.path.basename(temp_file_path))
+        self.blob_service.upload_file(temp_file_path, BUCKET_NAME, file_name)
 
     def upload_ml_model(self, model_name, model):
         with open(f'{model_name}.pkl', 'wb') as f:
@@ -90,7 +88,7 @@ class S3StorageService:
         return model_name
 
     def delete_blob(self, blob_name):
-        self.blob_service.Object(self.config.shared_storage_container_document_paragraphs, blob_name).delete()
+        self.blob_service.Object(self.config.shared_storage_container_custom_fields_models, blob_name).delete()
 
     def download(self, tempfile, blob_name):
         print(f"Downloading {blob_name} from S3", flush=True)
@@ -109,6 +107,9 @@ class S3StorageService:
         with open(tempfile.file_path, 'rb') as f:
             model = pickle.load(f)
         return model
+
+    def generate_bucket_file_name_from_folder(self, bucket_folder, file_name):
+        return '%s/%s' % (bucket_folder, file_name)
 
     def does_blob_exist(self, blob_name, container_name):
         return self.blob_service.head_object(Bucket=self.config.shared_storage_container_custom_fields_models, Key=blob_name)
