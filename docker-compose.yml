@@ -25,17 +25,14 @@ services:
       - database
 
   database:
-    image: postgres:13.3
-    ports:
-      - 5434:5434
+    image: mysql:5.7
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      PGDATA: /data/postgres
-    command: -p 5434
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - database-data:/data/postgres
+      - database-data:/var/lib/mysql
     networks:
       - conga_micro_network
 
