@@ -1,6 +1,7 @@
 import os
 
 APP_NAME = os.getenv('APP_NAME')
+DEV_ENV = os.getenv('APP_ENV', 'dev') == 'dev'
 
 AZURE_STORAGE_CONNECTION_STRING = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
 
