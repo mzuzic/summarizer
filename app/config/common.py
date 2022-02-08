@@ -35,3 +35,16 @@ host = os.getenv('DB_HOST')
 port = os.getenv('DB_PORT')
 
 DATABASE_CONNECTION_URI = f'mysql+pymysql://{user}:{password}@{host}:{port}/{database}'
+
+BUCKET_NAME = os.getenv('BUCKET_NAME')
+
+BUCKET_FOLDERS = {
+    'DOCUMENTS_FOLDER': os.getenv('DOCUMENTS_FOLDER'),
+    'DOCUMENT_PARAGRAPHS_FOLDER': os.getenv('DOCUMENT_PARAGRAPHS_FOLDER'),
+    'ANNOTATED_PARAGRAPHS_FOLDER': os.getenv('ANNOTATED_PARAGRAPHS_FOLDER'),
+    'DOCUMENT_FIELDS_FOLDER': os.getenv('DOCUMENT_FIELDS_FOLDER'),
+    'CUSTOM_MODELS_FOLDER': os.getenv('CUSTOM_MODELS_FOLDER')
+}
+
+AWS_SERVER_SECRET_KEY = ''
+AWS_SERVER_PUBLIC_KEY = ''
