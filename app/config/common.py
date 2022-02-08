@@ -34,7 +34,7 @@ password = os.getenv('DB_PASSWORD')
 host = os.getenv('DB_HOST')
 port = os.getenv('DB_PORT')
 
-DATABASE_CONNECTION_URI = f'postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}'
+DATABASE_CONNECTION_URI = f'mysql+pymysql://{user}:{password}@{host}:{port}/{database}'
 
 BUCKET_NAME = os.getenv('BUCKET_NAME')
 
