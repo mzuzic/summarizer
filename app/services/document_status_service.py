@@ -1,8 +1,9 @@
 import requests
 
 from app.services.encryption_service import EncryptionService
-from app.config.common import (APP_NAME, CORE_CHANGE_TRAINING_STATUS_URL,
-                               CORE_TRAINING_STATUS_FINISHED_URL, CORE_TRAINING_STATUS_FAILED_URL)
+from app.config.common import (CORE_CHANGE_TRAINING_STATUS_URL,
+                               CORE_TRAINING_STATUS_FINISHED_URL, CORE_TRAINING_STATUS_FAILED_URL,
+                               CORE_APP_API_KEY, APP_NAME)
 
 
 # TODO change name
@@ -26,5 +27,4 @@ def change_training_status(trained_model_id, model_name, status):
             "status": status.value}
     headers = {'authorization': EncryptionService.encrypt(APP_NAME)}
     requests.post(url=CORE_CHANGE_TRAINING_STATUS_URL,
-                  data=data,
-                  headers=headers)
+                  data=data, headers=headers)
