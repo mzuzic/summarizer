@@ -1,3 +1,8 @@
+
+from init_files_handler import download_datasets
+
+download_datasets()
+
 import os
 from app import create_app
 from app.api import index
