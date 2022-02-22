@@ -40,11 +40,13 @@ services:
     image: conga_custom_extraction
     restart: unless-stopped
     env_file: .env
-    command: 'sh -c "celery -A app worker --pool solo --loglevel=debug --concurrency=4"'
+    command: sh docker/entrypoint-queue.sh
     volumes:
       - .:/custom-extraction
     networks:
       - conga_micro_network
+    depends_on:
+    - custom_extraction
 
   redis:
     image: redis:alpine
