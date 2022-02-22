@@ -1,6 +1,4 @@
 #!/bin/sh
 set -e
 
-sleep 20
-
-celery -A app worker --pool solo --loglevel=debug --concurrency=4
+/wait-for custom_extraction:5006 -- celery -A app worker --pool solo --loglevel=debug --concurrency=4
