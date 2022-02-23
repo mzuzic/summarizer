@@ -33,7 +33,8 @@ def download_model():
         print("save failed ", sys.exc_info()[0])
 
     finally:
-        os.remove('./models/legal_bert_small_smoothing-0.1.zip')
+        print("OK", flush=True)
+        # os.remove('./models/legal_bert_small_smoothing-0.1.zip')
 
 def download_datasets():
     datasets = ['df_metadata_annotated.pkl', 'df_clause_id_examples.pkl']
