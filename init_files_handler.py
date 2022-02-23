@@ -3,7 +3,7 @@ import sys
 import boto3
 import zipfile
 
-from app.config.common import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, BUCKET_NAME
+from app.config.common import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, BUCKET_MODEL_NAME
 
 
 session = boto3.Session(
@@ -21,7 +21,7 @@ def download_model():
     try:
 
         with open('./models/legal_bert_small_smoothing-0.1.zip', 'wb') as data:
-            s3_client.download_fileobj(BUCKET_NAME, file_name, data)
+            s3_client.download_fileobj(BUCKET_MODEL_NAME, file_name, data)
 
         print('File downloaded', flush=True)
 
@@ -42,7 +42,7 @@ def download_datasets():
             if os.path.exists(f'./datasets/{dataset}'):
                 return
             with open(f'./datasets/{dataset}', 'wb') as data:
-                s3_client.download_fileobj(BUCKET_NAME, dataset, data)
+                s3_client.download_fileobj(BUCKET_MODEL_NAME, dataset, data)
 
     except Exception:
         print("save failed ", sys.exc_info()[0])
