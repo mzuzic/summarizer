@@ -3,12 +3,13 @@ import sys
 import boto3
 import zipfile
 
-from app.config.common import AWS_SERVER_SECRET_KEY, AWS_SERVER_PUBLIC_KEY, BUCKET_MODEL_NAME
+from app.config.common import AWS_SERVER_SECRET_KEY, AWS_SERVER_PUBLIC_KEY, AWS_REGION_NAME, BUCKET_MODEL_NAME
 
 
 session = boto3.Session(
     aws_access_key_id=AWS_SERVER_PUBLIC_KEY,
     aws_secret_access_key=AWS_SERVER_SECRET_KEY,
+    region_name=AWS_REGION_NAME
 )
 s3_client = session.client('s3')
 
@@ -20,12 +21,12 @@ def download_model():
 
     try:
 
-        with open('./models/legal_bert_small_smoothing-0.1.zip', 'wb') as data:
+        with open('legal_bert_small_smoothing-0.1.zip', 'wb') as data:
             s3_client.download_fileobj(BUCKET_MODEL_NAME, file_name, data)
 
         print('File downloaded', flush=True)
 
-        with zipfile.ZipFile('./models/legal_bert_small_smoothing-0.1.zip', 'r') as zip_ref:
+        with zipfile.ZipFile('legal_bert_small_smoothing-0.1.zip', 'r') as zip_ref:
             zip_ref.extractall('./models/')
 
         print('File unzipped', flush=True)
