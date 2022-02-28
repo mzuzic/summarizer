@@ -1,7 +1,6 @@
 
-from init_files_handler import download_datasets, download_model
+from init_files_handler import download_model
 
-download_datasets()
 download_model()
 
 import os
