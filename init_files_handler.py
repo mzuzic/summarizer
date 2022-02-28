@@ -3,12 +3,12 @@ import sys
 import boto3
 import zipfile
 
-from app.config.common import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, BUCKET_MODEL_NAME
+from app.config.common import AWS_SERVER_SECRET_KEY, AWS_SERVER_PUBLIC_KEY, BUCKET_MODEL_NAME
 
 
 session = boto3.Session(
-    aws_access_key_id=AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    aws_access_key_id=AWS_SERVER_PUBLIC_KEY,
+    aws_secret_access_key=AWS_SERVER_SECRET_KEY,
 )
 s3_client = session.client('s3')
 
