@@ -39,6 +39,8 @@ def download_model():
 
 def download_datasets():
     datasets = ['df_metadata_annotated.pkl', 'df_clause_id_examples.pkl']
+    if not os.path.exists('./datasets'):
+        os.mkdir('./datasets')
     try:
         for dataset in datasets:
             if os.path.exists(f'./datasets/{dataset}'):
