@@ -11,7 +11,6 @@ index = Blueprint(name='index', import_name=__name__, url_prefix="/v1")
 init_db()
 
 
-# REQUEST ENDPOINT
 @index.route('/request/<request_id>', methods=['GET'])
 def get_request(request_id):
     request = Request.query.get(request_id)
@@ -31,6 +30,6 @@ def hello():
     db_session.commit()
 
     # TODO create as an async task
-    summary = summarize(transcript)
+    summary = summarize(transcript, req.id)
 
     return jsonify({'id': req.id, 'file_name': file.filename, 'transcript': summary})

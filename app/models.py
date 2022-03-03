@@ -7,7 +7,7 @@ from sqlalchemy.types import Enum
 from sqlalchemy.sql import func
 
 
-class Status(enum.Enum):
+class Status(str, enum.Enum):
     PENDING = "pending"
     RUNNING = "running"
     FINISHED = 'finished'
@@ -19,6 +19,7 @@ class Request(Base):
     id: int
     summary: str
     time_created: str
+    status: str
 
     __tablename__ = 'requests'
     id = Column(Integer, primary_key=True)
