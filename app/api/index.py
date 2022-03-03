@@ -11,17 +11,17 @@ index = Blueprint(name='index', import_name=__name__, url_prefix="/v1")
 init_db()
 
 
-@index.route('/request/<request_id>', methods=['GET'])
-def get_request(request_id):
+@index.route('/summary/<request_id>', methods=['GET'])
+def get_summary(request_id):
     request = Request.query.get(request_id)
 
     return jsonify(request)
 
 
-@index.route('/', methods=['POST'])
-def hello():
-    file = request.files['file']
-    content = json.load(file)
+@index.route('/summarize', methods=['POST'])
+def create_summary():
+    transcript_file = request.files['transcript']
+    content = json.load(transcript_file)
     transcript = content['results']['transcripts'][0]['transcript']
 
     # TODO create a repository?
@@ -30,6 +30,6 @@ def hello():
     db_session.commit()
 
     # TODO create as an async task
-    summary = summarize(transcript, req.id)
+    summarize(transcript, req.id)
 
-    return jsonify({'id': req.id, 'file_name': file.filename, 'transcript': summary})
+    return jsonify({'id': req.id})

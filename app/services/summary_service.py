@@ -1,7 +1,7 @@
 from app.model_repository import nlp
 from app.models import Request, Status
 from app.database import db_session
-from app.api.services.constants import PHRASE_LIMIT, SENTENCE_LIMIT
+from app.services.constants import PHRASE_LIMIT, SENTENCE_LIMIT
 
 
 def create_summary(text):
@@ -26,8 +26,6 @@ def summarize(text, request_id):
         request.summary = summary
         request.status = Status.FINISHED
         db_session.commit()
-
-        return summary
     except Exception as ex:
         print(ex)
         request = Request.query.filter_by(id=request_id).first()
