@@ -2,7 +2,7 @@ import enum
 
 from app.database import Base
 from dataclasses import dataclass
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, Text
 from sqlalchemy.types import Enum
 from sqlalchemy.sql import func
 
@@ -17,12 +17,12 @@ class Status(enum.Enum):
 @dataclass
 class Request(Base):
     id: int
-    model_location: str
+    summary: str
     time_created: str
 
     __tablename__ = 'requests'
     id = Column(Integer, primary_key=True)
-    model_location = Column(String(200), unique=True)
+    summary = Column(Text())
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     status = Column(Enum(Status), default=Status.PENDING)
 

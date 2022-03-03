@@ -1,8 +1,8 @@
 import spacy
+import pytextrank
 
-from sentence_transformers import SentenceTransformer
-from app.constants import SPACY_MODEL, CLAUSE_ENCODER
+from app.constants import SPACY_MODEL
 
 
 nlp = spacy.load(SPACY_MODEL)
-clause_encoder = SentenceTransformer(CLAUSE_ENCODER)
+nlp.add_pipe("textrank")

@@ -1,26 +1,19 @@
 version: "3"
 
-networks:
-  conga_micro_network:
-    external:
-      name: conga_micro_network
-
 services:
-  custom_extraction:
+  summarizer:
     build: 
       context: .
       args:
         REQUIREMENTS_FILE: dev.txt
-    image: conga_custom_extraction
-    # container_name: api_custom_extraction
+    image: sounder_summarizer
+    container_name: api_summarizer
     environment:
-      - FLASK_DEBUG=1
+      - FLASK_DEBUG=1  # TODO change
     ports:
       - "5006:5006"
-    networks:
-      - conga_micro_network
     volumes:
-      - .:/custom-extraction
+      - .:/summarizer
     depends_on:
       - database
 
@@ -33,29 +26,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     volumes:
       - database-data:/var/lib/mysql
-    networks:
-      - conga_micro_network
-
-  celery:
-    image: conga_custom_extraction
-    restart: unless-stopped
-    env_file: .env
-    command: sh docker/entrypoint-queue.sh
-    volumes:
-      - .:/custom-extraction
-    networks:
-      - conga_micro_network
-    depends_on:
-    - custom_extraction
-
-  redis:
-    image: redis:alpine
-    restart: unless-stopped
-    command: --port 6380
-    ports:
-      - 6380:6380
-    networks:
-      - conga_micro_network
 
 volumes:
   database-data:

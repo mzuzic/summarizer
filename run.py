@@ -1,8 +1,4 @@
 
-from init_files_handler import download_model
-
-download_model()
-
 import os
 from app import create_app
 from app.api import index
